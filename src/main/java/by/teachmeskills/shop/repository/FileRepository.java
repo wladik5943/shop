@@ -8,50 +8,32 @@ import java.util.LinkedList;
 import java.util.stream.Stream;
 
 public class FileRepository implements ShopRepository, Serializable {
-    private Collection<User> users = new LinkedList<>();
-    private int count = 0;
-    public void serialize(Collection<User> users, String path){
-        try(ObjectOutputStream objOStr = new ObjectOutputStream(new FileOutputStream(path))){
-            objOStr.writeObject((Object)users);
-        }
-        catch (IOException e){
-            new RuntimeException(e);
-        }
-    }
 
-    public Collection<User> deSerialize(String path) {
 
-        try{
-            FileInputStream fileInputStream = new FileInputStream(path);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            Collection<User> users = new LinkedList<User>();
 
-        }
-        catch (IOException e){
-            new RuntimeException(e);
-        }
-        catch (ClassNotFoundException e){
-            new RuntimeException(e);
-        }
-        return users;
-    }
 
     @Override
     public void add(User user) {
+        Collection<User> users = Serialize.deSerialize("D:\\progects\\shop\\src\\main\\resources\\res");
         users.add(user);
-        count++;
-        serialize(users,"D:\\progects\\shop\\src\\main\\resources\\res");
+        Serialize.serialize(users,"D:\\progects\\shop\\src\\main\\resources\\res");
     }
 
     @Override
     public void deleteByld(int userId) {
-
+        Collection<User> users = Serialize.deSerialize("D:\\progects\\shop\\src\\main\\resources\\res");
+        for(User temp: users){
+            if(temp.getId() == userId) {
+                users.remove(temp);
+                break;
+            }
+        }
+        Serialize.serialize(users,"D:\\progects\\shop\\src\\main\\resources\\res");
     }
 
     @Override
     public Collection<User> allUsers() {
-        return deSerialize("D:\\progects\\shop\\src\\main\\resources\\res");
+        return Serialize.deSerialize("D:\\progects\\shop\\src\\main\\resources\\res");
     }
-
 
 }
