@@ -11,10 +11,18 @@ public class FileRepository implements ShopRepository, Serializable {
 
 
 
+    public User loginSearch(String login){
+        Collection<User> users = Serialize.deSerialize("D:\\progects\\shop\\src\\main\\resources\\res");
+        for(User temp: users)
+            if(temp.getLogin().equals(login))
+                return temp;
+        return null;
+    }
 
     @Override
     public void add(User user) {
         Collection<User> users = Serialize.deSerialize("D:\\progects\\shop\\src\\main\\resources\\res");
+        user.setId(users.size() + 1);
         users.add(user);
         Serialize.serialize(users,"D:\\progects\\shop\\src\\main\\resources\\res");
     }

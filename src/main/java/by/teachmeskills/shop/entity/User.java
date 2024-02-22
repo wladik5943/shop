@@ -63,7 +63,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User(int id, java.lang.String name, java.lang.String surname, java.lang.String login, java.lang.String password) {
+    public User( java.lang.String name, java.lang.String surname, java.lang.String login, java.lang.String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
