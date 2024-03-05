@@ -3,22 +3,12 @@
 
 
     <servlet>
-        <servlet-name>User</servlet-name>
-        <servlet-class>by.teachmeskills.shop.controller.UserServlet</servlet-class>
+        <servlet-name>Dispath</servlet-name>
+        <servlet-class>by.teachmeskills.shop.controller.DispatcherServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>User</servlet-name>
-        <url-pattern>/user</url-pattern>
-    </servlet-mapping>
-
-
-    <servlet>
-        <servlet-name>All</servlet-name>
-        <servlet-class>by.teachmeskills.shop.controller.AllUsersServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>All</servlet-name>
-        <url-pattern>/all</url-pattern>
+        <servlet-name>Dispath</servlet-name>
+        <url-pattern>/disp</url-pattern>
     </servlet-mapping>
 
 </web-app>

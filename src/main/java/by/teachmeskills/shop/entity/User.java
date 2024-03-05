@@ -1,14 +1,29 @@
 package by.teachmeskills.shop.entity;
 
+import by.teachmeskills.shop.enums.UserRole;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-public class User implements Serializable {
+public class User extends ShopEntity implements Serializable {
     private int id;
     private String name;
     private String surname;
     private String login;
     private String password;
+
+
+
+
+    private UserRole.Role role;
+
+    public UserRole.Role getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole.Role role) {
+        this.role = role;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -47,6 +62,9 @@ public class User implements Serializable {
         this.surname = surname;
     }
 
+    public User() {
+    }
+
     public String getLogin() {
         return login;
     }
@@ -69,5 +87,16 @@ public class User implements Serializable {
         this.surname = surname;
         this.login = login;
         this.password = password;
+    }
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }
