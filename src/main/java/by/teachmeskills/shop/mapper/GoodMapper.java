@@ -19,6 +19,7 @@ public class GoodMapper {
 
     public GoodResponse toGoodResponse(Good good){
         GoodResponse goodResponse = new GoodResponse();
+        goodResponse.setId(good.getId());
         goodResponse.setName(good.getName());
         goodResponse.setCode(good.getCode());
         goodResponse.setSubtype(good.getSubtype());

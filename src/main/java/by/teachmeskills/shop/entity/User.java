@@ -11,17 +11,13 @@ public class User extends ShopEntity implements Serializable {
     private String surname;
     private String login;
     private String password;
+    private UserRole role;
 
-
-
-
-    private UserRole.Role role;
-
-    public UserRole.Role getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(UserRole.Role role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

@@ -17,7 +17,7 @@ class SetAdmin {
         if(user == null){
             System.out.println("пользователь не существует");
             System.exit(0);
-        } else if (user.getRole() == UserRole.Role.ADMIN) {
+        } else if (user.getRole() == UserRole.ADMIN) {
             System.out.println("пользователь уже является админом");
             System.exit(0);
         }
@@ -43,7 +43,7 @@ class SetAdmin {
         }
 
 
-        user.setRole(UserRole.Role.ADMIN);
+        user.setRole(UserRole.ADMIN);
         userRepository.updateUser(user);
         System.out.println("статус админа присвоен");
     }

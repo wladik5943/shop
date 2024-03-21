@@ -1,8 +1,6 @@
 package by.teachmeskills.shop.enums;
 
-public class UserRole {
-    public enum Role{
+public enum UserRole {
         ADMIN,
         CLIENT
-    }
 }

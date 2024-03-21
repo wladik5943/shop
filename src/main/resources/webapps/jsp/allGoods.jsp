@@ -7,13 +7,14 @@
 <html>
 <body>
 <div>
-    <form method="post" action="http://localhost:8080//shop//disp">
+    <form method="post" action="http://localhost:8080//disp">
         <input type="submit" value="Все товары">
         <input type="hidden" name="allGoods">
     </form>
     <br>
     <table>
         <c:forEach var="good" items="${goods}">
+            <div>
             <tr>
                 <td>Name: ${good.name}</td>
             </tr>
@@ -27,8 +28,19 @@
                 <td>Price: ${good.price} </td>
             </tr>
             <tr>
-                <td>Quantity: ${good.quantity} <br><br></td>
+                <td>Quantity: ${good.quantity} <br></td>
             </tr>
+                <tr>
+            <td>
+                <form method="post" action="http://localhost:8080//disp">
+                    <input type="hidden" name="basket" value="${good.id}" />
+                    <input type="number" name="count" placeholder="количество">
+                    <input type="submit" value="добавить в корзину" /><br><br>
+
+                </form></td>
+                </tr>
+
+            </div>
         </c:forEach>
     </table>
 </div>

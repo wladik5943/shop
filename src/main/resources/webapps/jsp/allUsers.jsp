@@ -7,7 +7,7 @@
 <html>
 <body>
 <div>
-    <form method="post" action="http://localhost:8080//shop//disp">
+    <form method="post" action="http://localhost:8080//disp">
         <input type="submit" value="Все пользователи">
         <input type="hidden" name="allUsers">
     </form>
@@ -24,7 +24,10 @@
                 <td>Login: ${user.login} </td>
             </tr>
             <tr>
-                <td>Password: ${user.password} <br><br></td>
+                <td>Password: ${user.password} </td>
+            </tr>
+            <tr>
+                <td>Role: ${user.role} <br><br></td>
             </tr>
         </c:forEach>
     </table>

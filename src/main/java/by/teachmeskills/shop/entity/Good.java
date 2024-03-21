@@ -8,18 +8,18 @@ public class Good extends ShopEntity implements Serializable {
     private int id;
     private int code;
     private String name;
-    private GoodSubtupe.subtype subtype;
-
-    public GoodSubtupe.subtype getSubtype() {
+    private GoodSubtupe subtype;
+    private double price;
+    private int quantity;
+    public GoodSubtupe getSubtype() {
         return subtype;
     }
 
-    public void setSubtype(GoodSubtupe.subtype subtype) {
+    public void setSubtype(GoodSubtupe subtype) {
         this.subtype = subtype;
     }
 
-    private double price;
-    private int quantity;
+
 
     public String getName() {
         return name;

@@ -1,12 +1,10 @@
 package by.teachmeskills.shop.enums;
 
-public class GoodSubtupe {
-    public enum subtype{
+public enum GoodSubtupe {
         PHONE,
         AUDIO,
         COMPUTER,
         WATCH,
         APPLIANCES,
         TV
-    }
 }

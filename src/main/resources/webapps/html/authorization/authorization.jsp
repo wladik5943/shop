@@ -39,9 +39,10 @@
 </section>
 <section class="u-clearfix u-section-2" id="sec-0573">
     <div class="u-clearfix u-sheet u-sheet-1">
+        <h2 class="u-custom-font u-font-ubuntu u-text u-text-default u-text-1"><c:out value="${errorMessage}"/></h2>
         <h2 class="u-custom-font u-font-ubuntu u-text u-text-default u-text-1">Вход</h2>
         <div class="u-form u-form-1">
-            <form method="post" action="http://localhost:8080//shop//disp" class="u-clearfix u-form-spacing-10 u-inner-form"  name="form" style="padding: 10px;">
+            <form method="post" action="http://localhost:8080//disp" class="u-clearfix u-form-spacing-10 u-inner-form"  name="form" style="padding: 10px;">
                 <div class="u-form-group u-form-name">
                     <label for="name-3f8a" class="u-custom-font u-font-open-sans u-label u-text-palette-2-dark-3 u-label-1">Логин</label>
                     <input type="text" placeholder="Введите Ваш логин" id="name-3f8a" name="login" class="u-input u-input-rectangle u-radius u-text-palette-5-dark-3 u-input-1" required="">
@@ -58,14 +59,13 @@
                     <a href="#" class="u-border-2 u-border-grey-75 u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-dark-1 u-palette-4-base u-radius u-btn-1">Войти</a>
                     <input type="submit" value="submit" class="u-form-control-hidden">
                 </div>
-                <div class="u-form-send-message u-form-send-success"> Спасибо! Ваше сообщение отправлено. </div>
-                <div class="u-form-send-error u-form-send-message"> Отправка не удалась. Пожалуйста, исправьте ошибки и попробуйте еще раз. </div>
+
                 <input type="hidden" value="" name="recaptchaResponse">
                 <input type="hidden" name="authentication" value="authentication">
             </form>
         </div>
         <br>
-        <a href="http://localhost:8080//shop//html//registration//register.html" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-1  u-radius u-btn-2">Регистрация </a>
+        <a href="http://localhost:8080//html//registration//register.html" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-1  u-radius u-btn-2">Регистрация </a>
         <br>
     </div>
 </section>
