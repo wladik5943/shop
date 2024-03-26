@@ -8,6 +8,7 @@ import by.teachmeskills.shop.repository.interfaces.UserRepository;
 import java.sql.*;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public class GoodRepository implements by.teachmeskills.shop.repository.interfaces.GoodRepository {
@@ -16,6 +17,72 @@ public class GoodRepository implements by.teachmeskills.shop.repository.interfac
             " values (?,?,?,?,?,?);";
 
     private final String MAX_ID = "select max(id) from shop.goods";
+    private final String SEARCH_BY_ID = "select * from shop.goods where id = ?";
+    private final String QUANTITY_BY_ID = "select quantity from shop.goods where id = ?";
+
+    private final String BUY_GOOD = "update shop.goods set quantity = ? where id = ?";
+
+    public void buyGood(int goodId, int quantity){
+        Connection connection = null;
+        String url = "jdbc:postgresql://localhost:5432/databaseforshop";
+        String username = "postgres";
+        String password = "1234";
+        Good good = new Good();
+        try {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(QUANTITY_BY_ID);
+            preparedStatement.setInt(1,goodId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            int quantityInDataBase = resultSet.getInt("quantity");
+            quantityInDataBase -= quantity;
+            PreparedStatement preparedStatementBuy = connection.prepareStatement(BUY_GOOD);
+            preparedStatementBuy.setInt(1,quantityInDataBase);
+            preparedStatementBuy.setInt(2,goodId);
+            preparedStatementBuy.execute();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Collection<Good> listGetGoodsById(List<Integer> goodIds){
+        Collection<Good> goods = new LinkedList<>();
+        goodIds.forEach(x ->{
+            goods.add(searchById(x));
+        });
+        return goods;
+    }
+
+    public Good searchById(int id){
+        Connection connection = null;
+        String url = "jdbc:postgresql://localhost:5432/databaseforshop";
+        String username = "postgres";
+        String password = "1234";
+        Good good = new Good();
+        try{
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_BY_ID);
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            good.setId(resultSet.getInt("id"));
+            good.setName(resultSet.getString("name"));
+            good.setCode(resultSet.getInt("code"));
+            good.setPrice(resultSet.getInt("price"));
+            good.setQuantity(resultSet.getInt("quantity"));
+            good.setSubtype(subtypeFromDatabase(resultSet));
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return good;
+    }
 
     @Override
     public void add(Good good) {

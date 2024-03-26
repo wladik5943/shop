@@ -42,7 +42,10 @@
         <h1 class="u-align-left u-custom-font u-font-ubuntu u-text u-text-palette-2-base u-text-1">Ошибка<span style="font-weight: 400;"></span>
         </h1>
         <h4 class="u-align-center u-custom-font u-font-ubuntu u-text u-text-default u-text-palette-2-dark-2 u-text-2"><c:out value="${exp}"/></h4>
-
+        <form method="post" action="http://localhost:8080//butt">
+            <input type="submit" value="на главную">
+            <input type="hidden" name="master">
+        </form>
     </div>
 </section>
 

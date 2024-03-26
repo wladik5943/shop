@@ -6,6 +6,10 @@
 
 <html>
 <body>
+<form method="post" action="http://localhost:8080//butt">
+    <input type="submit" value="на главную">
+    <input type="hidden" name="master">
+</form>
 <div>
     <form method="post" action="http://localhost:8080//disp">
         <input type="submit" value="Все товары">
