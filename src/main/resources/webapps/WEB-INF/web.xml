@@ -1,0 +1,44 @@
+
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" version="6.0" metadata-complete="true">
+
+    <welcome-file-list>
+        <welcome-file>/jsp/welcome.jsp</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>Butt</servlet-name>
+        <servlet-class>by.teachmeskills.shop.controller.ButtonServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Butt</servlet-name>
+        <url-pattern>/butt</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Dispath</servlet-name>
+        <servlet-class>by.teachmeskills.shop.controller.DispatcherServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Dispath</servlet-name>
+        <url-pattern>/disp</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>Disp</filter-name>
+        <filter-class>by.teachmeskills.shop.filter.SessionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Disp</filter-name>
+        <servlet-name>Dispath</servlet-name>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>basketFilter</filter-name>
+        <filter-class>by.teachmeskills.shop.filter.BasketFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>basketFilter</filter-name>
+        <servlet-name>Dispath</servlet-name>
+    </filter-mapping>
+
+</web-app>

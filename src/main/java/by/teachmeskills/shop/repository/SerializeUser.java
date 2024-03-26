@@ -6,14 +6,14 @@ import java.io.*;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class Serialize implements Serializable {
+public class SerializeUser implements Serializable {
 
     private Collection<User> users = new LinkedList<>();
 
     public static void serialize(Collection<User> users, String path){
         try(ObjectOutputStream objOStr = new ObjectOutputStream(new FileOutputStream(path, false))){
-            Serialize serialize = new Serialize(users);
-            objOStr.writeObject(serialize);
+            SerializeUser serializeUser = new SerializeUser(users);
+            objOStr.writeObject(serializeUser);
             objOStr.flush();
         }
         catch (IOException e){
@@ -22,11 +22,11 @@ public class Serialize implements Serializable {
     }
 
     public static Collection<User> deSerialize(String path) {
-        Serialize serialize = new Serialize();
+        SerializeUser serializeUser = new SerializeUser();
         try{
             FileInputStream fileInputStream = new FileInputStream(path);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            serialize = (Serialize) objectInputStream.readObject();
+            serializeUser = (SerializeUser) objectInputStream.readObject();
 
         }
         catch (IOException e){
@@ -35,13 +35,13 @@ public class Serialize implements Serializable {
         catch (ClassNotFoundException e){
             new RuntimeException(e);
         }
-        return serialize.getUsers();
+        return serializeUser.getUsers();
     }
 
-    public Serialize() {
+    public SerializeUser() {
     }
 
-    public Serialize(Collection<User> users) {
+    public SerializeUser(Collection<User> users) {
         this.users = users;
     }
 
