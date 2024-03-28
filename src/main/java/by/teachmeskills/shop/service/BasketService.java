@@ -9,6 +9,7 @@ import by.teachmeskills.shop.entity.Order;
 import by.teachmeskills.shop.mapper.BasketMapper;
 import by.teachmeskills.shop.mapper.GoodMapper;
 import by.teachmeskills.shop.repository.BasketRepository;
+import by.teachmeskills.shop.repository.GoodRepository;
 import by.teachmeskills.shop.repository.OrderRepository;
 
 import java.util.Collection;
@@ -47,6 +48,11 @@ public class BasketService {
         basket.setOrderId(order.getId());
         BasketRepository basketRepository = new BasketRepository();
         basketRepository.add(basket);
+        int cost = orderRepository.orderCost(order.getId());
+        GoodRepository goodRepository = new GoodRepository();
+        int price = goodRepository.priceGood(basket.getGoodId());
+        cost += price * basket.getCount();
+        orderRepository.updateCost(order.getId(),cost);
         return basketMapper.toBasketResponse(basket);
     }
 

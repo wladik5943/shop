@@ -1,9 +1,7 @@
 package by.teachmeskills.shop.repository;
 
 import by.teachmeskills.shop.entity.Good;
-import by.teachmeskills.shop.entity.ShopEntity;
 import by.teachmeskills.shop.enums.GoodSubtupe;
-import by.teachmeskills.shop.repository.interfaces.UserRepository;
 
 import java.sql.*;
 import java.util.Collection;
@@ -20,7 +18,55 @@ public class GoodRepository implements by.teachmeskills.shop.repository.interfac
     private final String SEARCH_BY_ID = "select * from shop.goods where id = ?";
     private final String QUANTITY_BY_ID = "select quantity from shop.goods where id = ?";
 
-    private final String BUY_GOOD = "update shop.goods set quantity = ? where id = ?";
+    private final String UPDATE_QUANTITY_BY_ID = "update shop.goods set quantity = ? where id = ?";
+    private final String PRICE_BY_ORDER_ID = "select price from shop.goods where id = ?";
+
+    public int priceGood(int goodId){
+        Connection connection = null;
+        String url = "jdbc:postgresql://localhost:5432/databaseforshop";
+        String username = "postgres";
+        String password = "1234";
+        int price;
+        try {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(PRICE_BY_ORDER_ID);
+            preparedStatement.setInt(1,goodId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            price = resultSet.getInt("price");
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return price;
+    }
+
+
+    public void returnGoodFromBasket(int goodId, int quantity){
+        Connection connection = null;
+        String url = "jdbc:postgresql://localhost:5432/databaseforshop";
+        String username = "postgres";
+        String password = "1234";
+        try {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(QUANTITY_BY_ID);
+            preparedStatement.setInt(1,goodId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            int quantityFromDataBase = resultSet.getInt("quantity");
+            PreparedStatement preparedStatement1 = connection.prepareStatement(UPDATE_QUANTITY_BY_ID);
+            preparedStatement1.setInt(1,quantityFromDataBase + quantity);
+            preparedStatement1.setInt(2,goodId);
+            preparedStatement1.execute();
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void buyGood(int goodId, int quantity){
         Connection connection = null;
@@ -37,7 +83,7 @@ public class GoodRepository implements by.teachmeskills.shop.repository.interfac
             resultSet.next();
             int quantityInDataBase = resultSet.getInt("quantity");
             quantityInDataBase -= quantity;
-            PreparedStatement preparedStatementBuy = connection.prepareStatement(BUY_GOOD);
+            PreparedStatement preparedStatementBuy = connection.prepareStatement(UPDATE_QUANTITY_BY_ID);
             preparedStatementBuy.setInt(1,quantityInDataBase);
             preparedStatementBuy.setInt(2,goodId);
             preparedStatementBuy.execute();

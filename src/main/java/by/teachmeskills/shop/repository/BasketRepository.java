@@ -27,6 +27,13 @@ public class BasketRepository {
         try{
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            PreparedStatement preparedStatement1 = connection.prepareStatement(BASKET_BY_ORDER_ID);
+            preparedStatement1.setInt(1,orderId);
+            ResultSet resultSet = preparedStatement1.executeQuery();
+            GoodRepository goodRepository = new GoodRepository();
+            while(resultSet.next()){
+                goodRepository.returnGoodFromBasket(resultSet.getInt("goodid"),resultSet.getInt("count"));
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ORDER_ID);
             preparedStatement.setInt(1,orderId);
             preparedStatement.execute();

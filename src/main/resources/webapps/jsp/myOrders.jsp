@@ -28,6 +28,9 @@
                     <td>Status: ${order.status} <br></td>
                 </tr>
                 <tr>
+                    <td>Cost: ${order.cost} <br></td>
+                </tr>
+                <tr>
                     <td>состав заказа:</td>
                 </tr>
                 <tr>

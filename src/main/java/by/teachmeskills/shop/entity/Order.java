@@ -6,6 +6,15 @@ public class Order {
     private int id;
     private int userId;
     private OrderStatus status;
+    private int cost;
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 
     public int getId() {
         return id;

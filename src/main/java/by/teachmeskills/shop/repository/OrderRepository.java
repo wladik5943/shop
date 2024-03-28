@@ -11,13 +11,58 @@ import java.util.LinkedList;
 public class OrderRepository {
     private final String SEARCH_BY_ID_NOTPROCESSED = "select * from shop.order where userid = ? and status = 'NOTPROCESSED'";
     private final String MAX_ID = "select max(id) from shop.order";
-    private final String ADD_ORDER = "insert into shop.order (id,userid,status)" +
-            "values(?,?,?)";
+    private final String ADD_ORDER = "insert into shop.order (id,userid,status,cost)" +
+            "values(?,?,?,?)";
     private final String UPDATE_ORDER_STATUS = "update shop.order set status= ? where id = ?";
     private final String PROCESSED_ORDERS = "select * from shop.order where status = 'PROCESSED'";
     private final String SEARCH_BY_ID = "select * from shop.order where id = ?";
     private final String ALL_ORDERS_EXCEPT_NOTPROCESSED_BY_ID = "select * from shop.order where userid = ? and status != 'NOTPROCESSED'";
     private final String DELETE_ORDER = "delete from shop.order where id = ?";
+    private final String COST_BY_ORDER_ID = "select cost from shop.order where id = ?";
+    private final String UPDATE_COST_BY_ORDER_ID = "update shop.order set cost= ? where id = ?";
+
+
+    public void updateCost(int orderId, int cost){
+        Connection connection = null;
+        String url = "jdbc:postgresql://localhost:5432/databaseforshop";
+        String username = "postgres";
+        String password = "1234";
+        try {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_COST_BY_ORDER_ID);
+            preparedStatement.setInt(1,cost);
+            preparedStatement.setInt(2, orderId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int orderCost(int orderId){
+        Connection connection = null;
+        String url = "jdbc:postgresql://localhost:5432/databaseforshop";
+        String username = "postgres";
+        String password = "1234";
+        int cost;
+        try {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(COST_BY_ORDER_ID);
+            preparedStatement.setInt(1, orderId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            cost = resultSet.getInt("cost");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return cost;
+    }
+
     public void deleteOrder(int orderId){
         Connection connection = null;
         String url = "jdbc:postgresql://localhost:5432/databaseforshop";
@@ -53,6 +98,7 @@ public class OrderRepository {
                 order.setId(resultSet.getInt("id"));
                 order.setStatus(statusFromDatabase(resultSet));
                 order.setUserId(userId);
+                order.setCost(resultSet.getInt("cost"));
                 orders.add(order);
             }
 
@@ -174,6 +220,7 @@ public class OrderRepository {
                 order.setId(resultSet.getInt("id"));
                 order.setUserId(resultSet.getInt("userid"));
                 order.setStatus(OrderStatus.NOTPROCESSED);
+                order.setCost(resultSet.getInt("cost"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -200,10 +247,12 @@ public class OrderRepository {
             order.setId(++maxId);
             order.setUserId(userId);
             order.setStatus(OrderStatus.NOTPROCESSED);
+            order.setCost(0);
             PreparedStatement preparedStatementAdd = connection.prepareStatement(ADD_ORDER);
             preparedStatementAdd.setInt(1, order.getId());
             preparedStatementAdd.setInt(2, order.getUserId());
             preparedStatementAdd.setString(3, "NOTPROCESSED");
+            preparedStatementAdd.setInt(4,0);
             preparedStatementAdd.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);

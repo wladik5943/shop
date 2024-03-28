@@ -37,6 +37,7 @@ public class OrderService {
             orderResponse.setBasket(basketService.basketByOrderId(x.getId()));
             orderResponse.setUser(userRepository.idSearch(x.getUserId()));
             orderResponse.setProducts(orderResponse.getBasket().size());
+            orderResponse.setCost(x.getCost());
             orderResponses.add(orderResponse);
         });
         return orderResponses;
