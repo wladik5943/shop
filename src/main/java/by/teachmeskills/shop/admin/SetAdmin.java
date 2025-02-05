@@ -2,7 +2,7 @@ package by.teachmeskills.shop.admin;
 
 import by.teachmeskills.shop.entity.User;
 import by.teachmeskills.shop.enums.UserRole;
-import by.teachmeskills.shop.repository.UserRepository;
+import by.teachmeskills.shop.repository.userRepository.impl.UserRepositoryJDBC;
 
 import java.util.Scanner;
 
@@ -12,7 +12,7 @@ class SetAdmin {
         System.out.println("Присваивание ADMIN статуса пользователю");
         System.out.println("введите id пользователя");
         int id = scanner.nextInt();
-        UserRepository userRepository = new UserRepository();
+        UserRepositoryJDBC userRepository = new UserRepositoryJDBC();
         User user = userRepository.idSearch(id);
         if(user == null){
             System.out.println("пользователь не существует");

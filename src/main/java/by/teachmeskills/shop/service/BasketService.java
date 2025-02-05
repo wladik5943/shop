@@ -8,9 +8,9 @@ import by.teachmeskills.shop.entity.Good;
 import by.teachmeskills.shop.entity.Order;
 import by.teachmeskills.shop.mapper.BasketMapper;
 import by.teachmeskills.shop.mapper.GoodMapper;
-import by.teachmeskills.shop.repository.BasketRepository;
-import by.teachmeskills.shop.repository.GoodRepository;
-import by.teachmeskills.shop.repository.OrderRepository;
+import by.teachmeskills.shop.repository.basketRepository.impl.BasketRepositoryJDBC;
+import by.teachmeskills.shop.repository.goodRepository.impl.GoodRepositoryJDBC;
+import by.teachmeskills.shop.repository.orderRepository.impl.OrderRepositoryJDBC;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -20,7 +20,7 @@ public class BasketService {
 
 
     public Collection<GoodResponse> basketByOrderId(int orderId){
-        BasketRepository basketRepository = new BasketRepository();
+        BasketRepositoryJDBC basketRepository = new BasketRepositoryJDBC();
         GoodMapper goodMapper = new GoodMapper();
         Map<Good, Integer> goodIntegerMap = basketRepository.basketByOrderId(orderId);
         Collection<GoodResponse> basket = new LinkedList<>();
@@ -34,22 +34,22 @@ public class BasketService {
     }
 
     public void deleteGoodFromBasket(int userId,int goodId){
-        OrderRepository orderRepository = new OrderRepository();
+        OrderRepositoryJDBC orderRepository = new OrderRepositoryJDBC();
         Order order = orderRepository.searchbyUserIdNotProcessed(userId, false);
-        BasketRepository basketRepository = new BasketRepository();
+        BasketRepositoryJDBC basketRepository = new BasketRepositoryJDBC();
         basketRepository.deleteGoodFromBasketById(order.getId(),goodId);
     }
 
     public BasketResponse addBasket(int userId, BasketRequest basketRequest){
-        OrderRepository orderRepository = new OrderRepository();
+        OrderRepositoryJDBC orderRepository = new OrderRepositoryJDBC();
         Order order = orderRepository.searchbyUserIdNotProcessed(userId, true);
         BasketMapper basketMapper = new BasketMapper();
         Basket basket = basketMapper.toEntity(basketRequest);
         basket.setOrderId(order.getId());
-        BasketRepository basketRepository = new BasketRepository();
+        BasketRepositoryJDBC basketRepository = new BasketRepositoryJDBC();
         basketRepository.add(basket);
         int cost = orderRepository.orderCost(order.getId());
-        GoodRepository goodRepository = new GoodRepository();
+        GoodRepositoryJDBC goodRepository = new GoodRepositoryJDBC();
         int price = goodRepository.priceGood(basket.getGoodId());
         cost += price * basket.getCount();
         orderRepository.updateCost(order.getId(),cost);
@@ -57,12 +57,12 @@ public class BasketService {
     }
 
     public Collection<GoodResponse> userBasket(int userId){
-        OrderRepository orderRepository = new OrderRepository();
+        OrderRepositoryJDBC orderRepository = new OrderRepositoryJDBC();
         Order order = orderRepository.searchbyUserIdNotProcessed(userId, false);
         if(order == null){
             return null;
         }
-        BasketRepository basketRepository = new BasketRepository();
+        BasketRepositoryJDBC basketRepository = new BasketRepositoryJDBC();
         Map<Good, Integer> basket = basketRepository.basketByOrderId(order.getId());
         Collection<GoodResponse> goodResponses = new LinkedList<>();
         GoodMapper goodMapper = new GoodMapper();

@@ -1,4 +1,4 @@
-package by.teachmeskills.shop.repository;
+package by.teachmeskills.shop.config.serialize;
 
 import by.teachmeskills.shop.entity.User;
 

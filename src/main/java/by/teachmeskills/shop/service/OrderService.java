@@ -7,10 +7,10 @@ import by.teachmeskills.shop.entity.User;
 import by.teachmeskills.shop.enums.OrderStatus;
 import by.teachmeskills.shop.exeption.UniversalExseption;
 import by.teachmeskills.shop.mapper.OrderMapper;
-import by.teachmeskills.shop.repository.BasketRepository;
-import by.teachmeskills.shop.repository.GoodRepository;
-import by.teachmeskills.shop.repository.OrderRepository;
-import by.teachmeskills.shop.repository.UserRepository;
+import by.teachmeskills.shop.repository.basketRepository.impl.BasketRepositoryJDBC;
+import by.teachmeskills.shop.repository.goodRepository.impl.GoodRepositoryJDBC;
+import by.teachmeskills.shop.repository.orderRepository.impl.OrderRepositoryJDBC;
+import by.teachmeskills.shop.repository.userRepository.impl.UserRepositoryJDBC;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -18,17 +18,17 @@ import java.util.LinkedList;
 public class OrderService {
 
     public void canselOrder(int orderId){
-        OrderRepository orderRepository = new OrderRepository();
+        OrderRepositoryJDBC orderRepository = new OrderRepositoryJDBC();
         orderRepository.deleteOrder(orderId);
-        BasketRepository basketRepository = new BasketRepository();
+        BasketRepositoryJDBC basketRepository = new BasketRepositoryJDBC();
         basketRepository.deleteBasketByOrderId(orderId);
     }
 
     public Collection<OrderResponse> userOrders(int userId){
         Collection<OrderResponse> orderResponses = new LinkedList<>();
-        OrderRepository orderRepository = new OrderRepository();
+        OrderRepositoryJDBC orderRepository = new OrderRepositoryJDBC();
         Collection<Order> orders = orderRepository.allOrdersExceptNOTPROCESSEDByUserId(userId);
-        UserRepository userRepository = new UserRepository();
+        UserRepositoryJDBC userRepository = new UserRepositoryJDBC();
         BasketService basketService = new BasketService();
         orders.forEach(x ->{
             OrderResponse orderResponse = new OrderResponse();
@@ -45,14 +45,14 @@ public class OrderService {
     }
 
     public void packedOrder(int orderId){
-        OrderRepository orderRepository = new OrderRepository();
+        OrderRepositoryJDBC orderRepository = new OrderRepositoryJDBC();
         orderRepository.changeStatusForPACKED(orderId);
     }
 
     public OrderResponse OrderById(int orderId){
-        OrderRepository orderRepository = new OrderRepository();
+        OrderRepositoryJDBC orderRepository = new OrderRepositoryJDBC();
         Order order = orderRepository.searchById(orderId);
-        UserRepository userRepository = new UserRepository();
+        UserRepositoryJDBC userRepository = new UserRepositoryJDBC();
         User user = userRepository.idSearch(order.getUserId());
         OrderResponse orderResponse = new OrderResponse();
         OrderMapper orderMapper = new OrderMapper();
@@ -62,9 +62,9 @@ public class OrderService {
     }
 
     public Collection<OrderResponse> processedOrders(){
-        OrderRepository orderRepository = new OrderRepository();
-        UserRepository userRepository = new UserRepository();
-        BasketRepository basketRepository = new BasketRepository();
+        OrderRepositoryJDBC orderRepository = new OrderRepositoryJDBC();
+        UserRepositoryJDBC userRepository = new UserRepositoryJDBC();
+        BasketRepositoryJDBC basketRepository = new BasketRepositoryJDBC();
         Collection<Order> orders = orderRepository.ProcessedOrders();
         Collection<OrderResponse> processedOrders = new LinkedList<>();
         orders.forEach(x ->{
@@ -79,11 +79,11 @@ public class OrderService {
     }
 
     public void placeOrder(int userId, Collection<GoodResponse> basket) throws UniversalExseption{
-        GoodRepository goodRepository = new GoodRepository();
+        GoodRepositoryJDBC goodRepository = new GoodRepositoryJDBC();
         for(GoodResponse temp: basket)
             if(!temp.isStock())
                 throw new UniversalExseption("не достаточно товара");
-        OrderRepository orderRepository = new OrderRepository();
+        OrderRepositoryJDBC orderRepository = new OrderRepositoryJDBC();
         Order order = orderRepository.searchbyUserIdNotProcessed(userId, false);
         if(order == null || basket.isEmpty())
             throw new UniversalExseption("корзина пуста");

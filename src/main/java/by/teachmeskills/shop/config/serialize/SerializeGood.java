@@ -1,7 +1,6 @@
-package by.teachmeskills.shop.repository;
+package by.teachmeskills.shop.config.serialize;
 
 import by.teachmeskills.shop.entity.Good;
-import by.teachmeskills.shop.entity.User;
 
 import java.io.*;
 import java.util.Collection;

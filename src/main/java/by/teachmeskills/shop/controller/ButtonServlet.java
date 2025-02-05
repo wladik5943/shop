@@ -17,7 +17,7 @@ public class ButtonServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if(((UserResponse)(req.getSession().getAttribute("user"))).getRole() == UserRole.CLIENT && (req.getParameter("allUsers") != null ||
+        if((req.getSession().getAttribute("user") == null ||((UserResponse)(req.getSession().getAttribute("user"))).getRole() == UserRole.CLIENT) && (req.getParameter("allUsers") != null ||
                 req.getParameter("packedOrder") != null ||  req.getParameter("admin") != null)){
             req.setAttribute("exp","не достаточно прав");
             req.getRequestDispatcher("/html/Error/error.jsp").forward(req,resp);
